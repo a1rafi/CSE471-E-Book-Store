@@ -1,6 +1,7 @@
 const express = require('express');
 const dotenv = require("dotenv").config();
 const userRoute = require('./routes/userroute');
+const bookRoute = require('./routes/bookroute');
 require('./conn/conn');
 
 const app = express();
@@ -17,4 +18,4 @@ app.get('/', (req, res) => {
     res.send('Hello from Backend');
 });
 
-app.use('/api/user', userRoute);
+app.use('/api/user', userRoute, bookRoute);
