@@ -1,4 +1,0 @@
-Delete this file once you start working on frontend. 
-It has been created to commit the frontend folder initially.
-
-If there's any file namely 'gitignore', always keep that file blank/empty.
