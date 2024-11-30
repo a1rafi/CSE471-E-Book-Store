@@ -1,13 +1,11 @@
-import React from 'react';
+import React from 'react'
 
-function Footer() {
+const Footer = () => {
   return (
-    <div className="bg-zinc-800 text-white px-8 py-4">
-      <h1 className="text-xl font-semibold text-center">
-        &copy; 2024, A Sanctuary For Readers
-      </h1>
+    <div className='bg-zinc-800 text-white px-8 py-4'>
+        <h1 className='text-xl font-semibold text-center'>&copy; 2024, Explore new and enrich your knowledge </h1>
     </div>
-  );
+  )
 }
 
-export default Footer;
+export default Footer

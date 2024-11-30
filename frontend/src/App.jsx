@@ -1,31 +1,33 @@
-import React from 'react';
-import Home from './pages/Home';
-import Navbar from './components/Navbar/Navbar';
+import React from 'react'; 
+import Home from './pages/Home'; 
+import Navbar from './components/Navbar/Navbar'; 
 import Footer from './components/Footer/Footer';
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-// Import your AllBooks, LogIn, SignUp, Cart, and Profile components
-import AllBooks from './pages/AllBooks';  // Adjust path if necessary
-import LogIn from './pages/LogIn'; 
-import SignUp from './pages/SignUp';      // Import SignUp component (was incorrectly named as SignIn)
-import Cart from './pages/Cart';          // Import Cart component
-import Profile from './pages/Profile';    // Import Profile component
-
+import {BrowserRouter as Router,Routes,Route} from "react-router-dom";
+import AllBooks from"./pages/AllBooks"; 
+import LogIn from"./pages/LogIn"; 
+import SignUp from"./pages/SignUp"; 
+import Cart from"./pages/Cart"; 
+import Profile from"./pages/Profile"; 
 const App = () => {
   return (
-    <div>
-      <Router>
-        <Navbar />
+    <div> 
+      <Router> 
+        <Navbar /> 
         <Routes>
-          {/* Define the Routes properly */}
-          <Route path="/" element={<Home />} />
-          <Route path="/all-books" element={<AllBooks />} />
-          <Route path="/LogIn" element={<LogIn />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/SignUp" element={<SignUp />} /> {/* Fixed route path to match SignUp */}
+          < Route exact path="/" element={<Home />}/> 
+          <Route  path="/all-books" element={<AllBooks/>}/> 
+          <Route  path="/SignUp" element={<SignUp />}/> 
+          <Route  path="/LogIn" element={<LogIn/>}/> 
+          <Route  path="/cart" element={<Cart />}/> 
+          <Route  path="/profile" element={<Profile />}/> 
+
         </Routes>
-        <Footer />
-      </Router>
+        <Footer /> 
+        </Router>
+
+     
+      
+      
     </div>
   );
 };
