@@ -9,7 +9,7 @@ const Hero = () => {
             </h1>
             <p className='mt-4 tetx-xl text-zinc-300 text-center lg:text-left'>Uncover captivating stories , enrich knowledge , and endless inspiration in our curated collection of book </p>
              <div className='mt-8'></div>
-             <div><butteon className='text-yellow-100 text-xl lg:text-2xl font-semibold border border-yellow-100 px-10 py-2 hover:bg-zinc-800 rounded-full'>Discover Books</butteon></div>
+             <div><button className='text-yellow-100 text-xl lg:text-2xl font-semibold border border-yellow-100 px-10 py-2 hover:bg-zinc-800 rounded-full'>Discover Books</button></div>
             </div>
         <div className='w-full lg:w-3/6'>
         <img src="./book.jpg" alt="hero"/>        </div>

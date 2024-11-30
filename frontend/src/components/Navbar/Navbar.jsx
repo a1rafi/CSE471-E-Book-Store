@@ -57,7 +57,7 @@ const Navbar = () => {
 
         {/* Mobile Menu Toggle */}
         <button
-          className="text-white text-2xl hover:text-zinc-400"
+          className="block md:hidden text-white text-2xl hover:text-zinc-400"
           onClick={toggleMobileNav}
         >
           <FaGripLines />

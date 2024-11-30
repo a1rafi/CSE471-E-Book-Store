@@ -1,5 +1,7 @@
 const express = require('express');
 const dotenv = require("dotenv").config();
+const cors = require('cors');
+
 const userRoute = require('./routes/userroute');
 const bookRoute = require('./routes/bookroute');
 const favouriteRoute = require('./routes/favouriteroute');
@@ -12,7 +14,7 @@ require('./conn/conn');
 const app = express();
 
 app.use(express.json());
-
+app.use(cors());
 
 //didn't call port through .env file for simplicity
 app.listen(3000, () => {
@@ -27,6 +29,3 @@ app.use('/api/user', userRoute, bookRoute);
 app.use('/api/user', userRoute, favouriteRoute);
 app.use('/api/user', userRoute, cartRoute);
 app.use('/api/user', userRoute, orderRoute);
-
-
-
