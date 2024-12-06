@@ -18,8 +18,8 @@ const RecentlyAdded = () => {
             
   return (
     <div className='mt-8 px-4'>
-        <h4 className='text-3xl text-yellow-100'>Recently Added Book</h4>
-        {Data && 
+        <h4 className='text-3xl text-yellow-100'>Recently Added Books</h4>
+        {!Data && 
         (<div className='flex items-center justify-center my-8'>
              <Loader /> {" "}
         </div>
@@ -38,3 +38,5 @@ const RecentlyAdded = () => {
 }
 
 export default RecentlyAdded;
+
+
