@@ -18,22 +18,22 @@ const AllBooks = () => {
   return (
     <div className='bg-zinc-900 h-auto px-12 py-8'>
               <h4 className='text-3xl text-yellow-100'>All available Book</h4>
-        {Data && 
+        {!Data && 
         (<div className='flex items-center justify-center my-8'>
-             <Loader /> {" "}
+             <Loader />
         </div>
         )}
         <div className='my-8 grid sm:grid-cols-3 md:grid-cols-4 gap-4'>
             
             {Data && 
-            Data.map((items, i) => 
+            Data.map((items, i) => (
             <div key={i}>
                 <BookCard data={items} /> {" "}
             </div>
-        )}
+        ))}
         </div>
     </div>
   )
 }
 
-export default AllBooks
+export default AllBooks;
