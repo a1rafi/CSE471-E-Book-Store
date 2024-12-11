@@ -44,7 +44,7 @@ const Cart = () => {
 
   const PlaceOrder = async () => {
     try{
-      const responce =await axios.post(
+      const response =await axios.post(
         `http://localhost:3000/api/user/place-order`,
         {order:Cart },
         {headers}
