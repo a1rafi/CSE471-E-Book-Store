@@ -16,6 +16,7 @@ import OrderHistory from './components/Profile/OrderHistory';
 import Settings from './components/Profile/Settings';
 import AllOrders from "./pages/AllOrders.jsx";
 import AddBooks from "./pages/AddBook.jsx";
+import UpdateBook from "./pages/UpdateBook.jsx";
 
 
 const App = () => {
@@ -52,6 +53,8 @@ const App = () => {
           </Route>
           <Route  path="/SignUp" element={<SignUp />}/> 
           <Route  path="/LogIn" element={<LogIn/>}/> 
+          <Route  path="/updateBook/:id" element={<UpdateBook/>}/> 
+
           <Route path="/view-book-details/:id" element={<ViewBookDetails />} />
         </Routes>
         <Footer /> 

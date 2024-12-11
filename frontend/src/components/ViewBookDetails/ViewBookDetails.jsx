@@ -49,7 +49,8 @@ const ViewBookDetails = () => {
     const deleteBook = async() =>{
       const reponse =await axios.delete("http://localhost:3000/api/user/delete-book",{headers});
       alert(reponse.data.message);
-      navigate("/all-books");
+      //navigate("/all-books");
+      navigate("/Allbooks");
     }
 
   return (
