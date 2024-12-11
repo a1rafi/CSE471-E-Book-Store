@@ -26,7 +26,7 @@ router.post('/place-order', authenticateToken, async (req, res) => {
     }
 });
 
-router.get('/get-order-history', authenticateToken, async (req, res) => {
+router.get('/get-order-history',authenticateToken, async (req, res) => {
     try {
         const {id} = req.headers;
         const userData = await User.findById(id).populate({
@@ -38,6 +38,7 @@ router.get('/get-order-history', authenticateToken, async (req, res) => {
             status:"Success",
             data: ordersData,
         });
+        console.log(userData);
        
     } catch (error) {
         console.log(error);

@@ -86,7 +86,7 @@ const ViewBookDetails = () => {
   <span className='ms-4 block lg:hidden'>Edit</span>
     </Link>
   
-  <button className='text-red-500 rounded lg:rounded-full text-3xl p-3 mt-4 bg-white mt-8 md:mt-0 lg:mt-8 flex items-center justify-center' onClick= {deleteBook}>
+  <button className='text-red-500 rounded lg:rounded-full text-3xl p-3 bg-white mt-8 md:mt-0 lg:mt-8 flex items-center justify-center' onClick= {deleteBook}>
   <MdDeleteOutline />
   <span className='ms-4 block lg:hidden'>Delete</span>
   </button>
