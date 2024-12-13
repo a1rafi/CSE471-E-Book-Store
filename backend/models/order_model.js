@@ -12,7 +12,25 @@ const order = new mongoose.Schema({
     status: {
         type: String,
         default: "Order Placed",
-        enum: ["Order Placed", "Out for Delivery", "Delivered", "Canceled"] //enum is used to restrict the value of status
+        enum: ["Order Placed", "Out for Delivery", "Delivered", "Canceled"]
+    },
+    paymentMethod: {
+        type: String,
+        required: true
+    },
+    customerDetails: {
+        name: {
+            type: String,
+            required: true
+        },
+        address: {
+            type: String,
+            required: true
+        },
+        phone: {
+            type: String,
+            required: true
+        }
     }
 }, {
     timestamps: true

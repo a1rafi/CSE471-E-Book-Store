@@ -6,44 +6,65 @@ import { IoOpenOutline } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import SetUserData from './SetUserData';
 
-
 const AllOrders = () => {
   const [AllOrders, setAllOrders] = useState(null);
   const [Options, setOptions] = useState(-1);
-  const [Values, setValues] = useState({status:""});
+  const [Values, setValues] = useState({ status: "" });
   const [userDiv, setuserDiv] = useState("hidden");
   const [UserDivData, setUserDivData] = useState();
-  
+
   const headers = {
     id: localStorage.getItem('id'),
     authorization: `Bearer ${localStorage.getItem('token')}`,
   };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get("http://localhost:3000/api/user/get-all-orders", { headers });
-        //const response = await axios.get("http://localhost:3000/api/user/get-all-orders", { headers });
         setAllOrders(response.data.data);
       } catch (error) {
         console.error("Error fetching orders:", error);
       }
     };
     fetchData();
-  }, [AllOrders]);
+  }, []);
 
   const change = async (e) => {
-    const {value} = e.target;
-    setValues({status:value});
+    const { value } = e.target;
+    setValues({ status: value });
   };
+
   const submitChanges = async (i) => {
     const id = AllOrders[i]._id;
-    const response = await axios.put(`http://localhost:3000/api/user/update-status/${id}`, Values, { headers });
-    alert(response.data.message);
-  }
+    const newStatus = Values.status;
+  
+    // Check if the new status is different from the current status
+    if (AllOrders[i].status === newStatus) {
+      alert("Status is already set to " + newStatus);
+      return;
+    }
+  
+    try {
+      const response = await axios.put(`http://localhost:3000/api/user/update-status/${id}`, { status: newStatus }, { headers });
+      alert(response.data.message);
+  
+      // Update the status locally to reflect the change instantly
+      const updatedOrders = [...AllOrders];
+      updatedOrders[i].status = newStatus;
+      setAllOrders(updatedOrders);
+  
+      // Reset the Values state after submitting changes
+      setValues({ status: newStatus });
+    } catch (error) {
+      console.error("Error updating status:", error);
+    }
+  };
 
   const setOptionsButton = (i) => {
     setOptions(i);
   };
+
   return (
     <>
       {!AllOrders && (
@@ -70,7 +91,12 @@ const AllOrders = () => {
               <h1 className=''>Price</h1>
             </div>
             <div className="w-[30%] md:w-[16%]">
-              <h1 className="font-semibold text-green-500">
+              <h1 className="font-semibold ">
+                Payment Method
+              </h1>
+            </div>
+            <div className="w-[30%] md:w-[16%]">
+              <h1 className="font-semibold">
                 Status
               </h1>
             </div>
@@ -102,10 +128,13 @@ const AllOrders = () => {
               <div className='w-[17%] md:w-[9%]'>
                 <h1 className=''>{items.book ? `$${items.book.price}` : "N/A"}</h1>
               </div>
+              <div className="w-[30%] md:w-[16%]">
+                <h1 className="">{items.paymentMethod}</h1>
+              </div>
               <div className='w-[30%] md:w-[16%]'>
                 <h1 className='font-semibold'>
                   <button className='hover:scale-105 transition-all duration-300' onClick={() => setOptionsButton(i)}>
-                    {items.status === "Order placed" ? (
+                    {items.status === "Order Placed" ? (
                       <div className='text-yellow-500'>{items.status}</div>
                     ) : items.status === "Cancelled" ? (
                       <div className='text-red-500'>{items.status}</div>
@@ -115,14 +144,14 @@ const AllOrders = () => {
                   </button>
                   {Options === i && (
                     <div className="flex">
-                      <select name="status" 
-                      className='bg-gray-800'
-                      onChange={change}
-                      value = {Values.status}
+                      <select name="status"
+                        className='bg-gray-800'
+                        onChange={change}
+                        value={Values.status}
                       >
                         {[
-                          "Order placed",
-                          "Out for delivery",
+                          "Order Placed",
+                          "Out for Delivery",
                           "Delivered",
                           "Cancelled",
                         ].map((items, i) => (
@@ -132,10 +161,10 @@ const AllOrders = () => {
                         ))}
                       </select>
                       <button className='text-green-500 hover:text-pink-600 mx-2'
-                      onClick={()=>{
-                        setOptions(-1);
-                        submitChanges(i);
-                      }}>
+                        onClick={() => {
+                          setOptions(-1);
+                          submitChanges(i);
+                        }}>
                         <FaCheck />
                       </button>
                     </div>
@@ -157,10 +186,9 @@ const AllOrders = () => {
       )}
       {UserDivData && (
         <SetUserData
-        userDivData={UserDivData}
-        userDiv = {userDiv}
-        
-        setuserDiv={setuserDiv}
+          userDivData={UserDivData}
+          userDiv={userDiv}
+          setuserDiv={setuserDiv}
         ></SetUserData>
       )}
     </>

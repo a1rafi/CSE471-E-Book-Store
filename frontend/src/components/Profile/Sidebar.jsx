@@ -45,7 +45,7 @@ const Sidebar = ({ data }) => {
                     Settings
             </Link> */}
 
-    {role=== "user" &&
+            {role=== "user" &&
             <div className='md:block lg:block hidden'>
             <Link
             to="/profile"
@@ -55,7 +55,7 @@ const Sidebar = ({ data }) => {
 
             <Link
             to="/profile/orderHistory"
-            className="block text-zinc-100 font-semibold w-full py-2 mt-4 text-center hover:bg-zinc-900 w-full rounded transition-all duration-300">
+            className="block text-zinc-100 font-semibold py-2 mt-4 text-center hover:bg-zinc-900 w-full rounded transition-all duration-300">
             Order History
             </Link>
 
@@ -75,7 +75,7 @@ const Sidebar = ({ data }) => {
 
         <Link
         to="/profile/add-book"
-        className="block text-zinc-100 font-semibold w-full py-2 mt-4 text-center hover:bg-zinc-900 w-full rounded transition-all duration-300">
+        className="block text-zinc-100 font-semibold w-full py-2 mt-4 text-center hover:bg-zinc-900 rounded transition-all duration-300">
         Add Book
         </Link>        
     </div>}
