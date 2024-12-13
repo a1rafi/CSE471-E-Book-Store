@@ -24,7 +24,7 @@ router.post('/place-order', authenticateToken, async (req, res) => {
         console.log(error);
         return res.status(500).json({message:"An error has occured"});
     }
-});
+});                            
 
 router.get('/get-order-history',authenticateToken, async (req, res) => {
     try {
