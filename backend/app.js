@@ -8,6 +8,9 @@ const favouriteRoute = require('./routes/favouriteroute');
 const cartRoute = require('./routes/cartroute');
 const orderRoute = require('./routes/orderroute');
 
+// const commentsRoutes = require('./routes/commentsRoutes');
+
+
 
 require('./conn/conn');
 
@@ -29,3 +32,5 @@ app.use('/api/user', userRoute, bookRoute);
 app.use('/api/user', userRoute, favouriteRoute);
 app.use('/api/user', userRoute, cartRoute);
 app.use('/api/user', userRoute, orderRoute);
+
+// app.use('/api/user', userRoute, commentsRoutes);

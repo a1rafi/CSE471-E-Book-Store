@@ -32,7 +32,7 @@ const SetUserData = ({userDivData, userDiv, setuserDiv}) => {
         <div className='mt-4'>
             <label htmlFor="">
                 Address:{" "}
-                <span className='font-semibold'>{userDivData.email}</span>
+                <span className='font-semibold'>{userDivData.address}</span>
             </label>
         </div>
         

@@ -1,0 +1,33 @@
+.rating-form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+  }
+  .rating-label {
+    margin-bottom: 10px;
+    color: white; 
+  }
+  
+  
+  .rating-form select {
+    margin-left: 10px;
+    padding: 5px;
+    border: 1px solid #121111;
+    color: rgb(244, 236, 236);
+    background-color: #575454;
+    border-radius: 5px;
+  }
+  
+  .rating-submit-button {
+    align-self: flex-end;
+    padding: 10px 20px;
+    background-color: #394b64;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .rating-submit-button:hover {
+    background-color: #394b64;
+  }

@@ -9,12 +9,18 @@ import { FaCartShopping } from "react-icons/fa6";
 import { FaEdit } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
 import { useNavigate } from 'react-router-dom';
+import CommentForm from '../CommentForm/CommentForm';
+import CommentList from '../CommentList/CommentList';
+import RatingForm from '../RatingForm/RatingForm';
+
+
 
 const ViewBookDetails = () => {
   const navigate = useNavigate();
   const {id} = useParams();
   console.log(id);
   const [Data, setData] = useState();
+  const [averageRating, setAverageRating] = useState(0);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const role = useSelector((state) => state.auth.role);
   console.log(isLoggedIn, role);
@@ -25,6 +31,8 @@ const ViewBookDetails = () => {
             await axios.get(`http://localhost:3000/api/user/get-book/${id}`);
             console.log(response);
             setData(response.data.data);
+            setAverageRating(response.data.averageRating);
+
         }
         fetch();
     },[]);
@@ -52,6 +60,16 @@ const ViewBookDetails = () => {
       //navigate("/all-books");
       navigate("/Allbooks");
     }
+
+    const handleCommentAdded = () => {
+      // Re-fetch comments after a new comment is added
+      setData((prevData) => ({ ...prevData }));
+    };
+
+    const handleRatingAdded = () => {
+      // Re-fetch ratings after a new rating is added
+      setData((prevData) => ({ ...prevData }));
+    };
 
   return (
     <>
@@ -104,6 +122,13 @@ const ViewBookDetails = () => {
    <p className='mt-4 text-zinc-100 text-3xl font-semibold'>
      Price: ${Data.price}{" "}
      </p>
+     <p className='mt-4 text-zinc-100 text-2xl font-semibold'>
+              Average Rating: {averageRating.toFixed(1)} / 5
+    </p>
+    <RatingForm bookId={id} onRatingAdded={handleRatingAdded} />
+     <CommentForm bookId={id} onCommentAdded={handleCommentAdded} />
+    <CommentList bookId={id} />
+
  </div>
  </div>    
     )}
