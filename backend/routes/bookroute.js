@@ -214,6 +214,7 @@ router.get("/search", async (req, res) => {
         req.query.language && req.query.language !== "all"
           ? req.query.language
           : { $in: ["Bangla", "English"] };
+      const genre = req.query.genre || { $in: ["Fiction", "Non-Fiction"] };
       const limit = parseInt(req.query.limit) || 9;
       const start = parseInt(req.query.start) || 0;
   
@@ -223,6 +224,7 @@ router.get("/search", async (req, res) => {
       const books = await Book.find({
         $or: [{ title: regex }, { author: regex }],
         language: language,
+        genre: genre,
       })
         .skip(start)
         .limit(limit);

@@ -19,7 +19,7 @@ const Search = () => {
   const language = queryParams.get("language") || "all";
 
   // Function to fetch books
-  const fetchBooks = useCallback(async (query, selectedLang) => {
+  const fetchBooks = useCallback(async (query, selectedLang, selectedGenre) => {
     if (!query) {
       setBookList([]);
       setTotalBookCount(0);
@@ -32,7 +32,7 @@ const Search = () => {
       const response = await axios.get(
         `http://localhost:3000/api/user/search?searchTerm=${encodeURIComponent(
           query
-        )}&language=${selectedLang}&limit=${itemsPerPage}&start=${currentPageStart}`
+        )}&language=${selectedLang}&limit=${itemsPerPage}&genre=${selectedGenre}&start=${currentPageStart}`
       );
 
       if (response.data.status === "Success") {
@@ -78,6 +78,15 @@ const Search = () => {
     fetchBooks(searchQuery, event.target.value);
   };
 
+  const [selectedGenre, setSelectedGenre] = useState("all");
+
+  const handleGenreSelectionChange = (event) => {
+    setSelectedGenre(event.target.value);
+    setCurrentPageStart(0);
+    fetchBooks(searchQuery, selectedLanguage, event.target.value);
+  };
+
+
   const handleNextPage = () => {
     if (currentPageStart + itemsPerPage < totalBookCount) {
       setCurrentPageStart((prev) => prev + itemsPerPage);
@@ -106,6 +115,19 @@ const Search = () => {
             <option value="all">All Languages</option>
             <option value="Bangla">Bangla</option>
             <option value="English">English</option>
+          </select>
+          <label className="block text-sm font-medium text-gray-300 mb-2">
+            Genre
+          </label>
+          <select
+            value={selectedGenre}
+            onChange={handleGenreSelectionChange}
+            className="w-full px-2 py-1 border rounded text-black"
+>
+            <option value="all">All Genres</option>
+            <option value="Fiction">Fiction</option>
+            <option value="Non-Fiction">Non-Fiction</option>
+            {/* Add more options for different genres */}
           </select>
         </div>
       </div>
