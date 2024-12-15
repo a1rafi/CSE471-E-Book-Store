@@ -18,6 +18,7 @@ import AllOrders from "./pages/AllOrders.jsx";
 import AddBooks from "./pages/AddBook.jsx";
 import UpdateBook from "./pages/UpdateBook.jsx";
 import Payment from "./pages/Payment.jsx";
+import Search from "./pages/Search.jsx";
 
 
 const App = () => {
@@ -44,6 +45,7 @@ const App = () => {
         <Route path="/AllBooks" element={<AllBooks />} /> 
         <Route path="/cart" element={<Cart />} /> 
         <Route path="/payment" element={<Payment />} /> 
+        <Route path="/search" element={<Search />} />
 
         {/* Profile Routes */}
         <Route path="/profile" element={<Profile />}>

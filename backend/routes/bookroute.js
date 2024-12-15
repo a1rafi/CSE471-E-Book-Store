@@ -205,4 +205,45 @@ router.get('/get-book/:id', async (req, res) => {
 //     }
 // });
 
+//search
+
+router.get("/search", async (req, res) => {
+    try {
+      const searchTerm = req.query.searchTerm || "";
+      const language =
+        req.query.language && req.query.language !== "all"
+          ? req.query.language
+          : { $in: ["Bangla", "English"] };
+      const limit = parseInt(req.query.limit) || 9;
+      const start = parseInt(req.query.start) || 0;
+  
+      const sanitizedTerm = searchTerm.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      const regex = new RegExp(sanitizedTerm, "i");
+  
+      const books = await Book.find({
+        $or: [{ title: regex }, { author: regex }],
+        language: language,
+      })
+        .skip(start)
+        .limit(limit);
+  
+      const totalBookCount = await Book.countDocuments({
+        $or: [{ title: regex }, { author: regex }],
+        language: language,
+      });
+  
+      res.status(200).json({
+        status: "Success",
+        data: books,
+        total: totalBookCount,
+      });
+    } catch (error) {
+      res.status(500).json({
+        status: "Error",
+        message: error.message,
+      });
+    }
+  });
+  
+
 module.exports = router;
