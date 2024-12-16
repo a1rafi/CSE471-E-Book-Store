@@ -153,20 +153,42 @@ router.delete('/delete-book', authenticateToken, async (req, res) => {
     }
 });
 
+// router.get('/get-books', async (req, res) => {
+//     try {
+//         const books = await Book.find().sort({createdAt: -1});
+//         return res.status(200).json({status:"Success", data: books});
+//     } catch (error) {
+//         console.error('Error in /get-books route:', error);
+//         res.status(500).json({message: "An Error Occured", error: error.message});
+//     }
+// });
+
+
 router.get('/get-books', async (req, res) => {
     try {
-        const books = await Book.find().sort({createdAt: -1});
-        return res.status(200).json({status:"Success", data: books});
+      const books = await Book.find().sort({ createdAt: -1 });
+  
+      // Calculate average ratings for each book
+      const booksWithRatings = books.map(book => {
+        const averageRating = book.calculateAverageRating();
+        return { ...book.toObject(), averageRating };
+      });
+  
+      // Sort books by average ratings in descending order
+      booksWithRatings.sort((a, b) => b.averageRating - a.averageRating);
+  
+      return res.status(200).json({ status: "Success", data: booksWithRatings });
     } catch (error) {
-        console.error('Error in /get-books route:', error);
-        res.status(500).json({message: "An Error Occured", error: error.message});
+      console.error('Error in /get-books route:', error);
+      res.status(500).json({ message: "An Error Occurred", error: error.message });
     }
-});
+  });
+
 
 //Get recent books
 router.get('/get-recent-books', async (req, res) => {
     try {
-        const books = await Book.find().sort({createdAt: -1}).limit(4);
+        const books = await Book.find().sort({createdAt: -1}).limit(8);
         return res.status(200).json({status:"Success", data: books});
     } catch (error) {
         console.error('Error in /get-recent-books:', error);
