@@ -60,6 +60,10 @@ const book = new mongoose.Schema({
         type: String,
         required: true,
     },
+    genre: {
+        type: String,
+        required: true,
+    },
     comments: [commentSchema],
     ratings: [ratingSchema],
 }, {timestamps: true});

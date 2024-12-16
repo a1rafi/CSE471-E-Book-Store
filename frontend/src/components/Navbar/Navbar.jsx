@@ -30,7 +30,7 @@ const Navbar = () => {
     links.splice(2, 3); // Removes "Cart" and "Profile" if not logged in
   }
   if (isLoggedIn === true && role === "user") {
-    links.splice(4, 1); // Removes "Profile" if logged in as user
+    links.splice(4, 1); // Removes "Admin Profile" if logged in as user
   }
   if (isLoggedIn === true && role === "admin") {
     links.splice(3, 1); // Removes "Profile" if logged in as admin
@@ -79,8 +79,68 @@ const Navbar = () => {
               {item.title}
             </Link>
           ))}
+
+          {isLoggedIn === false && (
+            <div className="hidden md:flex gap-4">
+              <Link
+                to="/Login"
+                className="px-4 py-2 border border-blue-500 rounded hover:bg-white hover:text-zinc-800 transition-all duration-300"
+              >
+                Log In
+              </Link>
+              <Link
+                to="/Signup"
+                className="px-4 py-2 bg-blue-500 rounded hover:bg-white hover:text-zinc-800 transition-all duration-300"
+              >
+                Sign Up
+              </Link>
+            </div>
+          )}
         </div>
+
+        <button
+          className="text-white text-2xl hover:text-zinc-400 md:hidden"
+          onClick={() => setMobileNav(!mobileNav)}
+        >
+          <FaGripLines />
+        </button>
       </nav>
+
+      <div
+        className={`md:hidden fixed inset-0 bg-zinc-800 z-40 flex flex-col items-center justify-center transition-transform duration-300 ${
+          mobileNav ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
+        {links.map((item, i) => (
+          <Link
+            to={item.link}
+            className="text-white text-4xl mb-8 font-semibold hover:text-blue-500 transition-all duration-300"
+            key={i}
+            onClick={() => setMobileNav(false)} // Close the menu when a link is clicked
+          >
+            {item.title}
+          </Link>
+        ))}
+
+        {isLoggedIn === false && (
+          <>
+            <Link
+              to="/Login"
+              className="px-8 mb-8 py-2 text-3xl font-semibold border border-blue-500 rounded text-white hover:bg-white hover:text-zinc-800 transition-all duration-300"
+              onClick={() => setMobileNav(false)} // Close the menu when a link is clicked
+            >
+              Log In
+            </Link>
+            <Link
+              to="/Signup"
+              className="px-8 py-2 text-3xl font-semibold bg-blue-500 rounded text-white hover:bg-white hover:text-zinc-800 transition-all duration-300"
+              onClick={() => setMobileNav(false)} // Close the menu when a link is clicked
+            >
+              Sign Up
+            </Link>
+          </>
+        )}
+      </div>
     </>
   );
 };
