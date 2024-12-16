@@ -1,33 +1,45 @@
 .rating-form {
-    display: flex;
-    flex-direction: column;
-    margin-top: 20px;
-  }
-  .rating-label {
-    margin-bottom: 10px;
-    color: white; 
-  }
-  
-  
-  .rating-form select {
-    margin-left: 10px;
-    padding: 5px;
-    border: 1px solid #121111;
-    color: rgb(244, 236, 236);
-    background-color: #575454;
-    border-radius: 5px;
-  }
-  
-  .rating-submit-button {
-    align-self: flex-end;
-    padding: 10px 20px;
-    background-color: #394b64;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .rating-submit-button:hover {
-    background-color: #394b64;
-  }
+  margin: 20px 0;
+  padding: 15px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+}
+
+.star-rating {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 15px;
+}
+
+.star-rating input[type="radio"] {
+  display: none;
+}
+
+.star-rating label {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.star-rating label:hover {
+  transform: scale(1.2);
+}
+
+.star {
+  transition: color 0.2s ease;
+}
+
+.rating-submit-button {
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.rating-submit-button:hover {
+  background-color: #357abd;
+}

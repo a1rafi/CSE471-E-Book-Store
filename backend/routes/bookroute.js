@@ -181,32 +181,20 @@ router.get('/get-book/:id', async (req, res) => {
         const {id} = req.params;
         const book = await Book.findById(id);
         const averageRating = book.calculateAverageRating();
+        const totalRatings = book.ratings.length;
 
-        return res.status(200).json({status:"Success", data: book,averageRating});
+        return res.status(200).json({
+            status: "Success", 
+            data: book,
+            averageRating,
+            totalRatings
+        });
     } catch (error) {
         console.error('Error in /get-book by id:', error);
         res.status(500).json({message: "An Error Occured", error: error.message});
     }
 });
 
-// // Fetch book details
-// router.get('/get-book/:bookId', async (req, res) => {
-//     try {
-//         const { bookId } = req.params;
-//         const book = await Book.findById(bookId).populate('comments.user', 'username').populate('ratings.user', 'username');
-
-//         if (!book) {
-//             return res.status(404).json({ message: "Book not found" });
-//         }
-
-//         const averageRating = book.calculateAverageRating();
-
-//         res.status(200).json({ status: "Success", data: book, averageRating });
-//     } catch (error) {
-//         console.error('Error in /get-book route:', error);
-//         res.status(500).json({ message: "Router Error", error: error.message });
-//     }
-// });
 
 
 // Assuming you have a `Book` model and genre stored in books
