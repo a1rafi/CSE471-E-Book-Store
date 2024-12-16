@@ -2,7 +2,7 @@ import React from 'react'
 import Hero from '../components/Home/Hero'
 import RecentlyAdded from '../components/Home/RecentlyAdded'
 import PopularBooks from '../components/Home/PopularBooks'
-//import RecommenedBooks from '../components/Home/RecommenedBooks'
+import RecommenedBooks from '../components/Home/RecommenedBooks'
 
 const Home = () => {
   return (
@@ -10,7 +10,7 @@ const Home = () => {
         <Hero /> 
         <RecentlyAdded />
         <PopularBooks />
-        {/* <RecommenedBooks /> */}
+        <RecommenedBooks />
 
     </div>
   )

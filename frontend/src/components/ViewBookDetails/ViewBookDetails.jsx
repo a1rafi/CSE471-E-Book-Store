@@ -4,6 +4,7 @@ import Loader from '../Loader/Loader';
 import { Link, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { GrLanguage } from 'react-icons/gr';
+import { FiBookOpen } from "react-icons/fi";
 import {FaHeart} from "react-icons/fa";
 import { FaCartShopping } from "react-icons/fa6";
 import { FaEdit } from "react-icons/fa";
@@ -117,8 +118,10 @@ const ViewBookDetails = () => {
    <p className='text-zinc-400 mt-1'> by {Data.author}</p>
    <p  className='text-zinc-500 mt-4 text-xl'>{Data.desc}</p>
    <p className='flex mt-4 items-center justify-start text-zinc-400'> 
-     <GrLanguage className="me-3"/>{Data.author}
+     <GrLanguage className="me-3"/>{Data.language}
      </p>
+     <p  className='flex mt-4 items-center justify-start text-zinc-400'>
+     <FiBookOpen className="me-2"/>{Data.genre}</p>
    <p className='mt-4 text-zinc-100 text-3xl font-semibold'>
      Price: ${Data.price}{" "}
      </p>

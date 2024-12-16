@@ -9,6 +9,7 @@ const AddBooks = () => {
         price:"",
         desc:"",
         language:"",
+        genre:""
     });
     const headers ={
         id: localStorage.getItem('id'),
@@ -28,7 +29,8 @@ const AddBooks = () => {
                 Data.author === "" ||
                 Data.price === "" ||
                 Data.desc === "" ||
-                Data.language === "" 
+                Data.language === "" ||
+                Data.genre === ""
             ){
                 alert("All fields are required");
                 return;
@@ -44,6 +46,7 @@ const AddBooks = () => {
             price:"",
             desc:"",
             language:"",
+            genre:"",
         });
         alert(response.data.message);
       }}
@@ -106,6 +109,19 @@ const AddBooks = () => {
                 name="language"
                 required
                 value={Data.language}
+                onChange ={change}/>
+                </div>
+
+                <div className='w-3/6'>
+                <label htmlFor="" className='text-zinc-400'>
+                    Genre
+                </label>
+                <input type="text" 
+                className='w-full mt-2 bg-zinc-900 text-zinc-100 p-2 outline-none'
+                placeholder='Genre of book'
+                name="genre"
+                required
+                value={Data.genre}
                 onChange ={change}/>
                 </div>
 

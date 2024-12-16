@@ -31,6 +31,7 @@ const BookCard = ({data, wishlist}) => {
     <p className='mt-2 text-zinc-400 font-semibold'>by {data.author}</p>
     <p className='mt-2 text-zinc-200 font-semibold text-xl'>{data.price} tk</p>
     <p className='mt-2 text-zinc-400 font-semibold'>{data.language}</p>
+    <p className='mt-2 text-zinc-400 font-semibold'>{data.genre}</p>
   </div>
   </Link>
   {wishlist && (
