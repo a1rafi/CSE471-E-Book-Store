@@ -5,10 +5,39 @@ const Order = require("../models/order_model");
 const User = require("../models/user_model");
 const sendEmail = require('../services/emailService');
 
+// router.post('/place-order', authenticateToken, async (req, res) => {
+//     try {
+//         const { id } = req.headers;
+//         const { order, paymentMethod, customerDetails } = req.body;
+//         for (const orderData of order) {
+//             const newOrder = new Order({
+//                 user: id,
+//                 book: orderData._id,
+//                 paymentMethod,
+//                 customerDetails
+//             });
+//             const orderDataFromDb = await newOrder.save();
+//             await User.findByIdAndUpdate(id, {
+//                 $push: { orders: orderDataFromDb._id },
+//             });
+//             await User.findByIdAndUpdate(id, {
+//                 $pull: { cart: orderData._id },
+//             });
+//         }
+//         return res.json({ status: "Success", message: "Order Placed Successfully" });
+
+//     } catch (error) {
+//         console.log(error);
+//         return res.status(500).json({ message: "An error has occurred" });
+//     }
+// });
+
 router.post('/place-order', authenticateToken, async (req, res) => {
     try {
         const { id } = req.headers;
         const { order, paymentMethod, customerDetails } = req.body;
+        const user = await User.findById(id);
+
         for (const orderData of order) {
             const newOrder = new Order({
                 user: id,
@@ -24,6 +53,14 @@ router.post('/place-order', authenticateToken, async (req, res) => {
                 $pull: { cart: orderData._id },
             });
         }
+
+        // Send email notification
+        const userEmail = user.email;
+        const subject = 'Order Confirmation - BookHeaven';
+        const text = `Dear ${user.username},\n\nYour order has been placed successfully.\n\nOrder Details:\n${order.map(item => `- ${item.title}`).join('\n')}\n\nTotal Amount: $${order.reduce((acc, item) => acc + item.price, 0)}\n\nThank you for shopping with us!\n\nBest regards,\nBookHeaven Team`;
+
+        sendEmail(userEmail, subject, text);
+
         return res.json({ status: "Success", message: "Order Placed Successfully" });
 
     } catch (error) {

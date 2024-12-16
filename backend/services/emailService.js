@@ -10,7 +10,7 @@ const transporter = nodemailer.createTransport({
 
 const sendEmail = (to, subject, text) => {
   const mailOptions = {
-    from: 'BookHeaven',
+    from: 'BookHeaven <no-reply@bookheaven.com>',
     to,
     subject,
     text,
