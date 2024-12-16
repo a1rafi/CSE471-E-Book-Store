@@ -197,40 +197,72 @@ router.get('/get-book/:id', async (req, res) => {
 
 
 
-// Assuming you have a `Book` model and genre stored in books
 
 router.get('/recommended-books', async (req, res) => {
-    try {
-        const { genre } = req.query;
+  try {
+    const { genre, currentBookId } = req.query;
+    const books = await Book.find({ genre, _id: { $ne: currentBookId } })
+      .sort({ averageRating: -1 }) // Sort by average ratings in descending order
+      .limit(5); // Limit the number of recommended books
 
-        // Check if the genre parameter is provided and valid
-        let query = {};
-        
-        if (genre && genre !== 'all') {
-            // If a valid genre is provided, filter by genre
-            query.genre = genre;
-        }
-
-        // Get books matching the genre filter or all books if no genre is specified
-        const recommendedBooks = await Book.find(query).limit(10);  // Limit to top 10 books
-
-        return res.status(200).json({
-            status: 'Success',
-            data: recommendedBooks,
-        });
-    } catch (error) {
-        console.error('Error fetching recommended books:', error);
-        res.status(500).json({
-            message: 'An error occurred while fetching recommended books.',
-            error: error.message,
-        });
-    }
+    res.status(200).json({
+      status: 'Success',
+      data: books,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: 'Error',
+      message: error.message,
+    });
+  }
 });
 
 
-
-
 //search
+
+// router.get("/search", async (req, res) => {
+//     try {
+//       const searchTerm = req.query.searchTerm || "";
+//       const language =
+//         req.query.language && req.query.language !== "all"
+//           ? req.query.language
+//           : { $in: ["Bangla", "English"] };
+//       const genre =
+//           req.query.genre && req.query.genre !== "all"
+//             ? req.query.genre
+//             : { $in: ["Fiction", "Non-Fiction"] };  
+//       const limit = parseInt(req.query.limit) || 9;
+//       const start = parseInt(req.query.start) || 0;
+  
+//       const sanitizedTerm = searchTerm.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+//       const regex = new RegExp(sanitizedTerm, "i");
+  
+//       const books = await Book.find({
+//         $or: [{ title: regex }, { author: regex }],
+//         language: language,
+//         genre: genre,
+//       })
+//         .skip(start)
+//         .limit(limit);
+  
+//       const totalBookCount = await Book.countDocuments({
+//         $or: [{ title: regex }, { author: regex }],
+//         language: language,
+//       });
+  
+//       res.status(200).json({
+//         status: "Success",
+//         data: books,
+//         total: totalBookCount,
+//       });
+//     } catch (error) {
+//       res.status(500).json({
+//         status: "Error",
+//         message: error.message,
+//       });
+//     }
+//   });
+  
 
 router.get("/search", async (req, res) => {
     try {
@@ -240,9 +272,9 @@ router.get("/search", async (req, res) => {
           ? req.query.language
           : { $in: ["Bangla", "English"] };
       const genre =
-          req.query.genre && req.query.genre !== "all"
-            ? req.query.genre
-            : { $in: ["Fiction", "Non-Fiction"] };  
+        req.query.genre && req.query.genre !== "all"
+          ? req.query.genre
+          : { $in: ["Fiction", "Non-Fiction"] };
       const limit = parseInt(req.query.limit) || 9;
       const start = parseInt(req.query.start) || 0;
   
@@ -260,6 +292,7 @@ router.get("/search", async (req, res) => {
       const totalBookCount = await Book.countDocuments({
         $or: [{ title: regex }, { author: regex }],
         language: language,
+        genre: genre,
       });
   
       res.status(200).json({
@@ -274,6 +307,5 @@ router.get("/search", async (req, res) => {
       });
     }
   });
-  
 
 module.exports = router;

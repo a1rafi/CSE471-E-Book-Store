@@ -3,16 +3,15 @@ import axios from 'axios';
 import BookCard from '../BookCard/BookCard';
 import Loader from '../Loader/Loader';
 
-const RecommendedBooks = ({ genre }) => {
+const RecommendedBooks = ({ genre, currentBookId }) => {
   const [recommendedBooks, setRecommendedBooks] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchRecommendedBooks = async () => {
       try {
-        // Make a request to the recommended-books API with the selected genre
         const response = await axios.get(`http://localhost:3000/api/user/recommended-books`, {
-          params: { genre }
+          params: { genre, currentBookId }
         });
         setRecommendedBooks(response.data.data);
       } catch (error) {
@@ -23,7 +22,7 @@ const RecommendedBooks = ({ genre }) => {
     };
 
     fetchRecommendedBooks();
-  }, [genre]); // This will run when the genre changes
+  }, [genre, currentBookId]);
 
   if (loading) {
     return (
