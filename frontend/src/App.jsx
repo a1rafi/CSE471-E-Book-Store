@@ -19,6 +19,7 @@ import AddBooks from "./pages/AddBook.jsx";
 import UpdateBook from "./pages/UpdateBook.jsx";
 import Payment from "./pages/Payment.jsx";
 import Search from "./pages/Search.jsx";
+import ComplainPage from './components/Profile/ComplainPage.jsx';
 
 
 const App = () => {
@@ -57,6 +58,7 @@ const App = () => {
             <Route path="add-book" element={<AddBooks />} />
           )}
           <Route path="orderHistory" element={<OrderHistory />} />
+          <Route path="ComplainPage" element={<ComplainPage />} />
           <Route path="settings" element={<Settings />} />
         </Route>
 
