@@ -152,8 +152,6 @@ router.delete('/delete-book', authenticateToken, async (req, res) => {
         res.status(500).json({message: "An Error Occured", error: error.message});
     }
 });
-
-// router.get('/get-books', async (req, res) => {
 //     try {
 //         const books = await Book.find().sort({createdAt: -1});
 //         return res.status(200).json({status:"Success", data: books});
@@ -219,7 +217,6 @@ router.get('/get-book/:id', async (req, res) => {
 
 
 
-
 router.get('/recommended-books', async (req, res) => {
   try {
     const { genre, currentBookId } = req.query;
@@ -238,9 +235,6 @@ router.get('/recommended-books', async (req, res) => {
     });
   }
 });
-
-
-//search
 
 // router.get("/search", async (req, res) => {
 //     try {

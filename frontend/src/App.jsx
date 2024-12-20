@@ -20,6 +20,7 @@ import UpdateBook from "./pages/UpdateBook.jsx";
 import Payment from "./pages/Payment.jsx";
 import Search from "./pages/Search.jsx";
 import ComplainPage from './components/Profile/ComplainPage.jsx';
+import ViewComplaints from './components/Profile/ViewComplaints.jsx';
 
 
 const App = () => {
@@ -55,7 +56,10 @@ const App = () => {
             element={role === "user" ? <Wishlist /> : <AllOrders />} 
           />
           {role === "admin" && (
+            <>
             <Route path="add-book" element={<AddBooks />} />
+            <Route path="view-complaints" element={<ViewComplaints />} />
+          </>
           )}
           <Route path="orderHistory" element={<OrderHistory />} />
           <Route path="ComplainPage" element={<ComplainPage />} />

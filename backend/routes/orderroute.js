@@ -5,7 +5,6 @@ const Order = require("../models/order_model");
 const User = require("../models/user_model");
 const sendEmail = require('../services/emailService');
 
-// router.post('/place-order', authenticateToken, async (req, res) => {
 //     try {
 //         const { id } = req.headers;
 //         const { order, paymentMethod, customerDetails } = req.body;

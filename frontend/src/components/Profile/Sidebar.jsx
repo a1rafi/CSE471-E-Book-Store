@@ -56,9 +56,9 @@ const Sidebar = ({ data }) => {
                         Add Book
                     </Link>
                     <Link
-                        to="/complain"
+                        to="/profile/view-complaints"
                         className="block text-zinc-100 font-semibold w-full py-2 mt-4 text-center hover:bg-zinc-900 rounded transition-all duration-300">
-                        Complain
+                        View Complaints
                     </Link>
                 </div>
             )}
