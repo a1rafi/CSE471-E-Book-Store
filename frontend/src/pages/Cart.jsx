@@ -1,129 +1,133 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useEffect, useState } from 'react';
+import Loader from '../components/Loader/Loader';
+import { AiFillDelete } from 'react-icons/ai';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
-const ArticlePage = () => {
-  const [articles, setArticles] = useState([]);
-  const [newArticle, setNewArticle] = useState({
-    bookId: "",
-    title: "",
-    content: "",
-    category: "",
-  });
-  const [showPostForm, setShowPostForm] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+const CartPage = () => {
+  const navigate = useNavigate();
+  const [Cart, setCart] = useState(null);
+  const [Total, setTotal] = useState(0);
+
+  const headers = {
+    id: localStorage.getItem('id'),
+    authorization: `Bearer ${localStorage.getItem('token')}`,
+  };
 
   useEffect(() => {
-    const fetchArticles = async () => {
+    const fetchCart = async () => {
       try {
-        const response = await axios.get("/api/articles");
-        if (Array.isArray(response.data)) {
-          setArticles(response.data);
-        } else {
-          setErrorMessage("Failed to fetch articles. Please try again later.");
-        }
+        const res = await axios.get(
+          'http://localhost:3000/api/user/get-user-cart',
+          { headers }
+        );
+        setCart(res.data.data);
       } catch (error) {
-        setErrorMessage("Failed to fetch articles. Please try again later.");
+        console.error('Error fetching cart:', error);
       }
     };
-
-    fetchArticles();
+    fetchCart();
   }, []);
 
-  const handleArticleSubmit = async (e) => {
-    e.preventDefault();
+  const deleteItem = async (bookid) => {
     try {
-      const userId = "user-id-from-auth"; // Replace with actual user ID
-      const headers = {
-        headers: {
-          id: userId,
-        },
-      };
-      const response = await axios.post("/api/add-article", newArticle, headers);
-      setArticles((prevArticles) => [...prevArticles, response.data]);
-      setShowPostForm(false);
-      setNewArticle({ bookId: "", title: "", content: "", category: "" });
+      const response = await axios.put(
+        `http://localhost:3000/api/user/remove-from-cart/${bookid}`,
+        {},
+        { headers }
+      );
+      alert(response.data.message);
+      setCart(Cart.filter((item) => item._id !== bookid));
     } catch (error) {
-      setErrorMessage(error.response?.data?.message || "Something went wrong!");
+      console.error('Error deleting item:', error);
     }
   };
 
-  return (
-    <div className="bg-zinc-900 px-12 py-8 min-h-screen text-white">
-      <h1 className="text-3xl font-bold mb-6">Article Page</h1>
-      <button
-        className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 mb-6"
-        onClick={() => setShowPostForm(!showPostForm)}
-      >
-        {showPostForm ? "Cancel" : "Post an Article"}
-      </button>
+  useEffect(() => {
+    if (Cart && Cart.length > 0) {
+      const total = Cart.reduce((acc, item) => acc + item.price, 0);
+      setTotal(total);
+    }
+  }, [Cart]);
 
-      {showPostForm && (
-        <div className="bg-zinc-800 p-6 rounded-lg shadow-md mb-8">
-          <h2 className="text-2xl font-semibold mb-4">Post a New Article</h2>
-          {errorMessage && <p className="text-red-500 mb-4">{errorMessage}</p>}
-          <form onSubmit={handleArticleSubmit} className="space-y-4">
-            <div className="space-y-2">
-              <label className="block text-sm font-medium text-gray-300">Book ID</label>
-              <input
-                className="w-full p-2 border border-gray-600 rounded-md bg-zinc-700 text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                type="text"
-                value={newArticle.bookId}
-                onChange={(e) => setNewArticle({ ...newArticle, bookId: e.target.value })}
-              />
-            </div>
-            <div className="space-y-2">
-              <label className="block text-sm font-medium text-gray-300">Title</label>
-              <input
-                className="w-full p-2 border border-gray-600 rounded-md bg-zinc-700 text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                type="text"
-                value={newArticle.title}
-                onChange={(e) => setNewArticle({ ...newArticle, title: e.target.value })}
-              />
-            </div>
-            <div className="space-y-2">
-              <label className="block text-sm font-medium text-gray-300">Content</label>
-              <textarea
-                className="w-full p-2 border border-gray-600 rounded-md bg-zinc-700 text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 min-h-32"
-                value={newArticle.content}
-                onChange={(e) => setNewArticle({ ...newArticle, content: e.target.value })}
-              />
-            </div>
-            <div className="space-y-2">
-              <label className="block text-sm font-medium text-gray-300">Category</label>
-              <input
-                className="w-full p-2 border border-gray-600 rounded-md bg-zinc-700 text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                type="text"
-                value={newArticle.category}
-                onChange={(e) => setNewArticle({ ...newArticle, category: e.target.value })}
-              />
-            </div>
-            <button 
-              type="submit" 
-              className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition-colors"
-            >
-              Submit Article
-            </button>
-          </form>
+  return (
+    <div className="bg-zinc-900 px-12 py-8 h-screen">
+      {Cart === null && (
+        <div className="h-screen w-full flex items-center justify-center">
+          <Loader />
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {articles.length === 0 ? (
-          <p className="text-gray-500 text-center col-span-full">No articles available.</p>
-        ) : (
-          articles.map((article) => (
-            <div key={article._id} className="bg-zinc-800 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-              <h3 className="text-xl font-semibold mb-2 text-white">{article.title}</h3>
-              <p className="text-sm text-blue-400 mb-3">{article.category}</p>
-              <p className="text-gray-300">{article.content}</p>
-            </div>
-          ))
-        )}
-      </div>
+      {Cart && Cart.length === 0 && (
+        <div className="h-screen">
+          <div className="h-[100%] flex items-center justify-center flex-col">
+            <h1 className="mb-8 text-5xl lg:text-6xl font-semibold text-zinc-400">
+              Empty Cart
+            </h1>
+            <img
+              src="https://i.ibb.co/X8pyVyN/images.png"
+              alt="empty cart"
+              className="rounded lg:[50vh]"
+            />
+          </div>
+        </div>
+      )}
 
-      
+      {Cart && Cart.length > 0 && (
+        <>
+          <h1 className="text-5xl font-semibold text-zinc-500 mb-8">Your Cart</h1>
+          {Cart.map((items, i) => (
+            <div className="w-full my-4 flex p-4 bg-zinc-800 rounded-lg" key={i}>
+              <img
+                src={items.url}
+                alt={items.title}
+                className="w-32 h-32 object-cover rounded-md"
+              />
+              <div className="ml-6 flex-grow">
+                <h1 className="text-2xl text-zinc-100 font-semibold">
+                  {items.title}
+                </h1>
+                <p className="text-normal text-zinc-300 mt-2">
+                  {items.desc.slice(0, 100)}...
+                </p>
+                <div className="flex mt-4 items-center justify-between">
+                  <h2 className="text-zinc-100 text-3xl font-semibold">
+                    ${items.price}
+                  </h2>
+                  <button
+                    className="bg-red-100 text-red-700 border border-red-700 rounded p-2"
+                    onClick={() => deleteItem(items._id)}
+                  >
+                    <AiFillDelete />
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </>
+      )}
+
+      {Cart && Cart.length > 0 && (
+        <div className="mt-4 w-full flex items-center justify-end">
+          <div className="p-4 bg-zinc-800 rounded">
+            <h1 className="text-3xl text-zinc-200 font-semibold">Total Amount</h1>
+            <div className="mt-3 flex items-center justify-between text-xl text-zinc-200">
+              <h2>{Cart.length} books</h2>
+              <h2>Total ${Total}</h2>
+            </div>
+            <div className="w-[100%] mt-3">
+              <button
+                className="bg-zinc-100 rounded px-4 py-2 flex justify-center w-full font-semibold hover:bg-zinc-500"
+                onClick={() => navigate('/payment', { state: { Cart, Total } })}
+              >
+                Proceed to Payment
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
-export default ArticlePage;
+export default CartPage;
