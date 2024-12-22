@@ -21,24 +21,22 @@ const Navbar = () => {
     { title: "Profile", link: "/profile" },
     { title: "Admin Profile", link: "/profile" },
     { title: "Articles", link: "/articles" },
+
   ];
 
   const isLoggedIn = useSelector((state) => state.auth?.isLoggedIn ?? false);
   const role = useSelector((state) => state.auth?.role ?? false);
 
-  // Filter links based on authentication and user role
-  const filteredLinks = links.filter((link) => {
-    if (!isLoggedIn && (link.title === "Cart" || link.title === "Profile" || link.title === "Admin Profile")) {
-      return false;
-    }
-    if (isLoggedIn && role === "user" && link.title === "Admin Profile") {
-      return false;
-    }
-    if (isLoggedIn && role === "admin" && link.title === "Profile") {
-      return false;
-    }
-    return true;
-  });
+  // Modify links based on authentication and user role
+  if (isLoggedIn === false) {
+    links.splice(2, 3); // Removes "Cart" and "Profile" if not logged in
+  }
+  if (isLoggedIn === true && role === "user") {
+    links.splice(4, 1); // Removes "Admin Profile" if logged in as user
+  }
+  if (isLoggedIn === true && role === "admin") {
+    links.splice(3, 1); // Removes "Profile" if logged in as admin
+  }
 
   return (
     <>
