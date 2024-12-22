@@ -72,10 +72,8 @@ const App = () => {
 
         {/* Other Routes */}
         <Route path="/updateBook/:id" element={<UpdateBook />} /> 
-        <Route path="/view-book-details/:id" element={<ViewBookDetails />} />\
+        <Route path="/view-book-details/:id" element={<ViewBookDetails />} />
         <Route path="/articles" element={<ArticlePage />} />
-       
-        
       </Routes>
       <Footer /> 
     </div>

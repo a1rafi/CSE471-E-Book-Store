@@ -4,27 +4,23 @@ import axios from "axios";
 const ArticlePage = () => {
   const [articles, setArticles] = useState([]);
   const [newArticle, setNewArticle] = useState({
-    bookId: "",
     title: "",
     content: "",
-    
   });
   const [showPostForm, setShowPostForm] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [expandedArticleId, setExpandedArticleId] = useState(null);
 
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        const response = await axios.get("/api/articles");
-        console.log('API response:', response.data); // Log the response data
+        const response = await axios.get("http://localhost:3000/api/user/articles");
         if (Array.isArray(response.data)) {
           setArticles(response.data);
         } else {
-          console.error('API response is not an array:', response.data);
           setErrorMessage('Failed to fetch articles. Please try again later.');
         }
       } catch (error) {
-        console.error('Error fetching articles:', error);
         setErrorMessage('Failed to fetch articles. Please try again later.');
       }
     };
@@ -35,49 +31,46 @@ const ArticlePage = () => {
   const handleArticleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const userId = "user-id-from-auth"; // Replace with actual user ID
+      const userId = localStorage.getItem('id'); // Get user ID from local storage
+      const token = localStorage.getItem('token'); // Get token from local storage
       const headers = {
         headers: {
           id: userId,
+          authorization: `Bearer ${token}`,
         },
       };
-      const response = await axios.post("/api/add-article", newArticle, headers);
+      const response = await axios.post("http://localhost:3000/api/user/add-article", newArticle, headers);
       setArticles((prevArticles) => [...prevArticles, response.data]);
       setShowPostForm(false);
-      setNewArticle({ bookId: "", title: "", content: "" });
+      setNewArticle({ title: "", content: "" });
     } catch (error) {
       setErrorMessage(error.response?.data?.message || "Something went wrong!");
     }
   };
 
+  const toggleExpandedArticle = (id) => {
+    setExpandedArticleId((prevId) => (prevId === id ? null : id));
+  };
+
   return (
-    <div className="bg-zinc-900 min-h-screen p-6">
-      <h1 className="text-3xl font-bold text-white mb-6">Article Page</h1>
+    <div className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 min-h-screen p-6">
+      <h1 className="text-4xl font-extrabold text-white text-center mb-6">Article Page</h1>
       <button
-        className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 mb-6"
+        className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 mb-6 block mx-auto shadow-md hover:shadow-lg transition-all"
         onClick={() => setShowPostForm(!showPostForm)}
       >
         {showPostForm ? "Cancel" : "Post an Article"}
       </button>
 
       {showPostForm && (
-        <div className="bg-zinc-800 p-6 rounded-lg shadow-md mb-8">
-          <h2 className="text-2xl font-semibold text-white mb-4">Post a New Article</h2>
+        <div className="bg-gray-800 p-6 rounded-lg shadow-lg mb-8">
+          <h2 className="text-2xl font-bold text-white mb-4">Post a New Article</h2>
           {errorMessage && <p className="text-red-500 mb-4">{errorMessage}</p>}
           <form onSubmit={handleArticleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <label className="block text-sm font-medium text-gray-300">Book ID</label>
-              <input
-                className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-zinc-700 text-white"
-                type="text"
-                value={newArticle.bookId}
-                onChange={(e) => setNewArticle({ ...newArticle, bookId: e.target.value })}
-              />
-            </div>
-            <div className="space-y-2">
               <label className="block text-sm font-medium text-gray-300">Title</label>
               <input
-                className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-zinc-700 text-white"
+                className="w-full p-3 rounded-md focus:ring-2 focus:ring-blue-500 bg-gray-700 text-white"
                 type="text"
                 value={newArticle.title}
                 onChange={(e) => setNewArticle({ ...newArticle, title: e.target.value })}
@@ -86,15 +79,14 @@ const ArticlePage = () => {
             <div className="space-y-2">
               <label className="block text-sm font-medium text-gray-300">Content</label>
               <textarea
-                className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-zinc-700 text-white min-h-32"
+                className="w-full p-3 rounded-md focus:ring-2 focus:ring-blue-500 bg-gray-700 text-white min-h-32"
                 value={newArticle.content}
                 onChange={(e) => setNewArticle({ ...newArticle, content: e.target.value })}
               />
             </div>
-            
-            <button 
-              type="submit" 
-              className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition-colors"
+            <button
+              type="submit"
+              className="w-full bg-blue-500 text-white py-3 rounded-md hover:bg-blue-600 transition-colors shadow-md hover:shadow-lg"
             >
               Submit Article
             </button>
@@ -107,10 +99,18 @@ const ArticlePage = () => {
           <p className="text-gray-500 text-center col-span-full">No articles available.</p>
         ) : (
           articles.map((article) => (
-            <div key={article._id} className="bg-zinc-800 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-              <h3 className="text-xl font-semibold text-white mb-2">{article.title}</h3>
-              
-              <p className="text-gray-300">{article.content}</p>
+            <div
+              key={article._id}
+              className="bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow cursor-pointer"
+              onClick={() => toggleExpandedArticle(article._id)}
+            >
+              <h3 className="text-2xl font-bold text-white mb-2">{article.title}</h3>
+              <p className="text-gray-300">
+                {expandedArticleId === article._id ? article.content : `${article.content.slice(0, 100)}...`}
+              </p>
+              {expandedArticleId !== article._id && (
+                <p className="text-blue-400 mt-2">Read more</p>
+              )}
             </div>
           ))
         )}

@@ -2,9 +2,10 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/user_model');
 const Book = require('../models/book_model');
+const Article = require('../models/article_model');
 const { authenticateToken } = require('./userAuth');
 
-// Add a new article to a book
+// Add a new article
 router.post('/add-article', authenticateToken, async (req, res) => {
   try {
     const { id } = req.headers;  // User ID from headers
@@ -17,61 +18,36 @@ router.post('/add-article', authenticateToken, async (req, res) => {
       return res.status(404).json({ message: "User not found." });
     }
 
-    const { bookId, title, content } = req.body;
+    const { title, content } = req.body;
 
     // Validate required fields
-    if (!bookId || !title || !content ) {
-      return res.status(400).json({ message: "All fields (bookId, title, conten) are trequired." });
+    if (!title || !content) {
+      return res.status(400).json({ message: "All fields (title, content) are required." });
     }
 
-    const book = await Book.findById(bookId);  // Find the book by ID
-    if (!book) {
-      return res.status(404).json({ message: "Book not found." });
-    }
-
-    // Create the article object
-    const article = {
+    const newArticle = new Article({
       title,
       content,
-      author: user._id,  // Store user ID as the article author
-    };
+    });
 
-    // Add article to the book's article list
-    book.articles.push(article);
-    await book.save();
-
-    // Return full article details including author's name
-    const savedArticle = { ...article, author: user.name };  // Add author name to the response
-    res.status(201).json(savedArticle);
+    await newArticle.save();
+    return res.status(201).json(newArticle);
   } catch (error) {
-    console.error("Error adding article:", error);
-    res.status(500).json({ message: "Internal server error. Please try again later." });
+    console.error('Error in /add-article route:', error);
+    res.status(500).json({ message: "Internal server error", error: error.message });
   }
 });
 
-// Fetch all articles from all books
+// Fetch all articles
 router.get('/articles', async (req, res) => {
-  console.log('API called: /articles');
   try {
-    const books = await Book.find().select('articles');  // Find all books and their articles
-    const articles = books.flatMap(book => 
-      book.articles.map(article => ({
-        ...article.toObject(),
-        authorName: article.author ? article.author.name : 'Unknown'  // Include author name
-      }))
-    );
-
-    if (articles.length === 0) {
-      return res.status(404).json({ message: "No articles found." });
-    }
-
-    res.status(200).json(articles);  // Return the articles
+    const articles = await Article.find();
+    return res.status(200).json(articles);
   } catch (error) {
-    console.error('Error fetching articles:', error);
-    res.status(500).json({ message: "Internal server error. Please try again later." });
+    console.error('Error in /articles route:', error);
+    res.status(500).json({ message: "Internal server error", error: error.message });
   }
 });
-
 
 // Add a comment to a book
 router.post('/add-comment', authenticateToken, async (req, res) => {
