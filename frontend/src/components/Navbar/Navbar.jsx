@@ -20,6 +20,8 @@ const Navbar = () => {
     { title: "Cart", link: "/cart" },
     { title: "Profile", link: "/profile" },
     { title: "Admin Profile", link: "/profile" },
+    { title: "Articles", link: "/articles" },
+
   ];
 
   const isLoggedIn = useSelector((state) => state.auth?.isLoggedIn ?? false);

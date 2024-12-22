@@ -1,4 +1,3 @@
-const { url } = require('inspector');
 const mongoose = require('mongoose');
 
 const commentSchema = new mongoose.Schema({
@@ -28,6 +27,25 @@ const ratingSchema = new mongoose.Schema({
         required: true,
         min: 1,
         max: 5,
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now,
+    },
+});
+
+const articleSchema = new mongoose.Schema({
+    title: {
+        type: String,
+        required: true,
+    },
+    content: {
+        type: String,
+        required: true,
+    },
+    author: {
+        type: String,
+        required: true,
     },
     createdAt: {
         type: Date,
@@ -66,7 +84,8 @@ const book = new mongoose.Schema({
     },
     comments: [commentSchema],
     ratings: [ratingSchema],
-}, {timestamps: true});
+    articles: [articleSchema], // Assuming a book can have multiple articles
+}, { timestamps: true });
 
 book.methods.calculateAverageRating = function() {
     if (this.ratings.length === 0) return 0;
@@ -74,5 +93,4 @@ book.methods.calculateAverageRating = function() {
     return sum / this.ratings.length;
 };
 
-
-module.exports = mongoose.model('books', book);
+module.exports = mongoose.model('Book', book);

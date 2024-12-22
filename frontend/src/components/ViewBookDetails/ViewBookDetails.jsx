@@ -16,6 +16,7 @@ import CommentList from '../CommentList/CommentList';
 import RatingForm from '../RatingForm/RatingForm';
 import RecommendedBooks from '../Home/RecommenedBooks';
 
+
 const ViewBookDetails = () => {
   const navigate = useNavigate();
   const { id } = useParams();
@@ -82,6 +83,7 @@ const ViewBookDetails = () => {
   const handleRatingAdded = () => {
     setRefreshKey(prevKey => prevKey + 1);
   };
+
 
   return (
     <>

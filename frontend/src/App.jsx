@@ -21,7 +21,7 @@ import Payment from "./pages/Payment.jsx";
 import Search from "./pages/Search.jsx";
 import ComplainPage from './components/Profile/ComplainPage.jsx';
 import ViewComplaints from './components/Profile/ViewComplaints.jsx';
-
+import ArticlePage from './pages/ArticlePage.jsx';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -72,7 +72,10 @@ const App = () => {
 
         {/* Other Routes */}
         <Route path="/updateBook/:id" element={<UpdateBook />} /> 
-        <Route path="/view-book-details/:id" element={<ViewBookDetails />} />
+        <Route path="/view-book-details/:id" element={<ViewBookDetails />} />\
+        <Route path="/articles" element={<ArticlePage />} />
+       
+        
       </Routes>
       <Footer /> 
     </div>
