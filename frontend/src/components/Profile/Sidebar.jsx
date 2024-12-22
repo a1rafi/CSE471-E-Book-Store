@@ -46,6 +46,11 @@ const Sidebar = ({ data }) => {
             {role === "admin" && (
                 <div className='md:block lg:block hidden'>
                     <Link
+                        to="/profile/admin-dashboard"
+                        className="block text-zinc-100 font-semibold w-full py-2 text-center hover:bg-zinc-900 rounded transition-all duration-300">
+                        Admin Dashboard
+                    </Link>
+                    <Link
                         to="/profile"
                         className="block text-zinc-100 font-semibold w-full py-2 text-center hover:bg-zinc-900 rounded transition-all duration-300">
                         All Orders

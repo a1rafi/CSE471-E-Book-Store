@@ -22,6 +22,7 @@ import Search from "./pages/Search.jsx";
 import ComplainPage from './components/Profile/ComplainPage.jsx';
 import ViewComplaints from './components/Profile/ViewComplaints.jsx';
 import ArticlePage from './pages/ArticlePage.jsx';
+import AdminDashboard from './pages/AdminDashboard.jsx';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -59,6 +60,7 @@ const App = () => {
             <>
             <Route path="add-book" element={<AddBooks />} />
             <Route path="view-complaints" element={<ViewComplaints />} />
+            <Route path="admin-dashboard" element={<AdminDashboard />} />
           </>
           )}
           <Route path="orderHistory" element={<OrderHistory />} />
