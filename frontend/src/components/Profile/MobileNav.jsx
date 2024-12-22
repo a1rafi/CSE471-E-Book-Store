@@ -16,7 +16,7 @@ const MobileNav = () => {
 
     <Link
     to="/profile/orderHistory"
-    className="block text-zinc-100 font-semibold w-full text-center hover:bg-zinc-900 w-full rounded transition-all duration-300">
+    className="block text-zinc-100 font-semibold w-full text-center hover:bg-zinc-900 rounded transition-all duration-300">
     Order History
     </Link>
 
@@ -36,7 +36,7 @@ const MobileNav = () => {
 
   <Link
   to="/profile/add-book"
-  className="block text-zinc-100 font-semibold w-full text-center hover:bg-zinc-900 w-full rounded transition-all duration-300">
+  className="block text-zinc-100 font-semibold text-center hover:bg-zinc-900 w-full rounded transition-all duration-300">
   Add Book
   </Link>
 

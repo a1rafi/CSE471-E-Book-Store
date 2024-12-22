@@ -63,7 +63,7 @@ const AdminDashboard = () => {
                         data={{
                             labels: uniqueOrders.map(([title]) => title),
                             datasets: [{
-                                label: 'Orders',
+                                label: 'Price',
                                 data: uniqueOrders.map(([, price]) => price),
                                 backgroundColor: 'rgba(34, 197, 94, 0.8)',
                                 borderColor: 'rgba(16, 185, 129, 1)',
