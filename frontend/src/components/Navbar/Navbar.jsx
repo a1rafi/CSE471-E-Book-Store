@@ -19,7 +19,7 @@ const Navbar = () => {
     { title: "All Books", link: "/AllBooks" },
     { title: "Cart", link: "/cart" },
     { title: "Profile", link: "/profile" },
-    { title: "Admin Profile", link: "/admin-profile" },
+    { title: "Admin Profile", link: "/profile" },
     { title: "Articles", link: "/articles" },
   ];
 
