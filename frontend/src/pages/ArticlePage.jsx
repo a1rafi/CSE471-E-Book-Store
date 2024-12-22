@@ -52,15 +52,19 @@ const ArticlePage = () => {
     setExpandedArticleId((prevId) => (prevId === id ? null : id));
   };
 
+  const isLoggedIn = !!localStorage.getItem('token'); // Check if user is logged in
+
   return (
     <div className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 min-h-screen p-6">
       <h1 className="text-4xl font-extrabold text-white text-center mb-6">Article Page</h1>
-      <button
-        className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 mb-6 block mx-auto shadow-md hover:shadow-lg transition-all"
-        onClick={() => setShowPostForm(!showPostForm)}
-      >
-        {showPostForm ? "Cancel" : "Post an Article"}
-      </button>
+      {isLoggedIn && (
+        <button
+          className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 mb-6 block mx-auto shadow-md hover:shadow-lg transition-all"
+          onClick={() => setShowPostForm(!showPostForm)}
+        >
+          {showPostForm ? "Cancel" : "Post an Article"}
+        </button>
+      )}
 
       {showPostForm && (
         <div className="bg-gray-800 p-6 rounded-lg shadow-lg mb-8">
