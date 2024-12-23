@@ -23,6 +23,7 @@ import ComplainPage from './components/Profile/ComplainPage.jsx';
 import ViewComplaints from './components/Profile/ViewComplaints.jsx';
 import ArticlePage from './pages/ArticlePage.jsx';
 import AdminDashboard from './pages/AdminDashboard.jsx';
+import Chatbot from "./components/Chatbot/Chatbot";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -78,6 +79,7 @@ const App = () => {
         <Route path="/articles" element={<ArticlePage />} />
       </Routes>
       <Footer /> 
+      <Chatbot />
     </div>
   );
 };
