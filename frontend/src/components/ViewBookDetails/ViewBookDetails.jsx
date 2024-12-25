@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { GrLanguage } from 'react-icons/gr';
-import { FaHeart } from "react-icons/fa";
+import { FaHeart, FaStar, FaStarHalfAlt, FaRegStar, FaEdit } from "react-icons/fa";
 import { FaCartShopping } from "react-icons/fa6";
-import { FaEdit } from "react-icons/fa";
 import { FiBookOpen } from "react-icons/fi";
-import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa';
 import { MdDeleteOutline } from "react-icons/md";
-import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import Modal from 'react-modal';
+
 import Loader from '../Loader/Loader';
 import CommentForm from '../CommentForm/CommentForm';
 import CommentList from '../CommentList/CommentList';
@@ -24,6 +24,8 @@ const ViewBookDetails = () => {
   const [comments, setComments] = useState([]);
   const [refreshKey, setRefreshKey] = useState(0);
   const [totalRatings, setTotalRatings] = useState(0);
+  const [showModal, setShowModal] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const role = useSelector((state) => state.auth.role);
 
@@ -36,6 +38,7 @@ const ViewBookDetails = () => {
         setTotalRatings(response.data.totalRatings || 0);
       } catch (error) {
         console.error('Error fetching book data:', error);
+        toast.error('Failed to load book details. Please try again later.');
       }
     };
 
@@ -45,6 +48,7 @@ const ViewBookDetails = () => {
         setComments(response.data.data);
       } catch (error) {
         console.error('Error fetching comments:', error);
+        toast.error('Failed to load comments. Please try again later.');
       }
     };
 
@@ -59,19 +63,34 @@ const ViewBookDetails = () => {
   };
 
   const handleWishlist = async () => {
-    const response = await axios.put("http://localhost:3000/api/user/add-book-to-favourite", {}, { headers });
-    alert(response.data.message);
+    try {
+      const response = await axios.put("http://localhost:3000/api/user/add-book-to-favourite", {}, { headers });
+      toast.success(response.data.message);
+    } catch (error) {
+      console.error('Error adding to wishlist:', error);
+      toast.error('Failed to add to wishlist. Please try again.');
+    }
   };
 
   const handleCart = async () => {
-    const response = await axios.put("http://localhost:3000/api/user/add-to-cart", {}, { headers });
-    alert(response.data.message);
+    try {
+      const response = await axios.put("http://localhost:3000/api/user/add-to-cart", {}, { headers });
+      toast.success(response.data.message);
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+      toast.error('Failed to add to cart. Please try again.');
+    }
   };
 
   const deleteBook = async () => {
-    const response = await axios.delete("http://localhost:3000/api/user/delete-book", { headers });
-    alert(response.data.message);
-    navigate("/Allbooks");
+    try {
+      const response = await axios.delete("http://localhost:3000/api/user/delete-book", { headers });
+      toast.success(response.data.message);
+      navigate("/Allbooks");
+    } catch (error) {
+      console.error('Error deleting book:', error);
+      toast.error('Failed to delete book. Please try again.');
+    }
   }
 
   const handleCommentAdded = (newComment) => {
@@ -91,7 +110,7 @@ const ViewBookDetails = () => {
             <div className="flex flex-col lg:flex-row gap-8">
               <div className="w-full lg:w-1/3">
                 <div className='bg-zinc-800 rounded-lg shadow-xl overflow-hidden'>
-                  <div className='relative pb-[120%]'>
+                  <div className='relative pb-[120%]' >
                     <img
                       src={Data.url}
                       alt={Data.title}
@@ -165,6 +184,65 @@ const ViewBookDetails = () => {
                     <h3 className="text-lg font-medium text-white mb-2">Price</h3>
                     <p className='text-2xl font-bold text-green-400'>${Data.price}</p>
                   </div>
+                </div>
+
+                <div className="mb-8">
+                  <h3 className="text-lg font-medium text-white mb-2">Read a few pages</h3>
+                  {Data.pdfLink ? (
+                    <>
+                      <button
+                        className="text-blue-600 underline hover:text-blue-800"
+                        onClick={() => setShowModal(true)}
+                      >
+                        View PDF
+                      </button>
+                      <Modal
+                        isOpen={showModal}
+                        onRequestClose={() => setShowModal(false)}
+                        className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75"
+                        overlayClassName="fixed inset-0 bg-black bg-opacity-75"
+                        contentLabel="PDF Viewer"
+                      >
+                        <div className="bg-white w-full max-w-4xl rounded-lg overflow-hidden">
+                          <div className="flex justify-between items-center p-4 bg-gray-800 text-white">
+                            <h2 className="text-lg font-bold">{Data?.title}</h2>
+                            <button
+                              onClick={() => setShowModal(false)}
+                              className="text-white-500 font-bold bg-red-700 px-4 py-2 rounded-lg"
+                            >
+                              Close
+                            </button>
+                          </div>
+                          <div className="p-4">
+                            <iframe
+                              src={Data?.pdfLink}
+                              width="100%"
+                              height="400px"
+                              className="border-2 border-gray-300 rounded-lg"
+                              title="PDF Preview"
+                            />
+                          </div>
+                          <div className="p-4 bg-gray-100 flex justify-between items-center">
+                            <button
+                              onClick={() => window.open(Data?.pdfLink, "_blank")}
+                              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+                            >
+                              Open in Full Screen
+                            </button>
+                            <a
+                              href={Data?.pdfLink}
+                              download={`${Data?.title}.pdf`}
+                              className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700"
+                            >
+                              Download PDF
+                            </a>
+                          </div>
+                        </div>
+                      </Modal>
+                    </>
+                  ) : (
+                    <p className="text-red-500">Sorry, PDF not available</p>
+                  )}
                 </div>
 
                 <div className="border-t border-zinc-700 pt-8">

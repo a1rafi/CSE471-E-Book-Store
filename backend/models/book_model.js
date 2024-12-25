@@ -1,4 +1,3 @@
-const { url } = require('inspector');
 const mongoose = require('mongoose');
 
 const commentSchema = new mongoose.Schema({
@@ -64,6 +63,10 @@ const book = new mongoose.Schema({
         type: String,
         required: true,
     },
+    pdfLink: {
+        type: String,
+        default: null,
+    },
     comments: [commentSchema],
     ratings: [ratingSchema],
 }, {timestamps: true});
@@ -73,6 +76,5 @@ book.methods.calculateAverageRating = function() {
     const sum = this.ratings.reduce((acc, rating) => acc + rating.rating, 0);
     return sum / this.ratings.length;
 };
-
 
 module.exports = mongoose.model('books', book);

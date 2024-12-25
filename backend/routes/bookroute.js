@@ -140,45 +140,47 @@ router.get('/get-ratings/:bookId', async (req, res) => {
 // Admin routes
 router.post('/add-book', authenticateToken, async (req, res) => {
   try {
-    const { id } = req.headers;
-    const user = await User.findById(id);
-    if (user.role !== 'admin') {
-      return res.status(400).json({ message: "Forbidden. Only admin can add books" });
-    }
-    const book = new Book({
-      url: req.body.url,
-      title: req.body.title,
-      author: req.body.author,
-      price: req.body.price,
-      desc: req.body.desc,
-      language: req.body.language,
-      genre: req.body.genre
-    });
-    await book.save();
-    res.status(200).json({ message: "Book added successfully" });
+      const { id } = req.headers;
+      const user = await User.findById(id);
+      if (user.role !== 'admin') {
+          return res.status(400).json({ message: "Forbidden. Only admin can add books" });
+      }
+      const book = new Book({
+          url: req.body.url,
+          title: req.body.title,
+          author: req.body.author,
+          price: req.body.price,
+          desc: req.body.desc,
+          language: req.body.language,
+          genre: req.body.genre,
+          pdfLink: req.body.pdfLink, // Add pdfLink field
+      });
+      await book.save();
+      res.status(200).json({ message: "Book added successfully" });
   } catch (error) {
-    console.error('Error in /add-book route:', error);
-    res.status(500).json({ message: "Router Error", error: error.message });
+      console.error('Error in /add-book route:', error);
+      res.status(500).json({ message: "Router Error", error: error.message });
   }
 });
 
 router.put('/update-book', authenticateToken, async (req, res) => {
   try {
-    const { bookid } = req.headers;
-    await Book.findByIdAndUpdate(bookid, {
-      url: req.body.url,
-      title: req.body.title,
-      author: req.body.author,
-      price: req.body.price,
-      desc: req.body.desc,
-      language: req.body.language,
-      genre: req.body.genre
-    });
+      const { bookid } = req.headers;
+      await Book.findByIdAndUpdate(bookid, {
+          url: req.body.url,
+          title: req.body.title,
+          author: req.body.author,
+          price: req.body.price,
+          desc: req.body.desc,
+          language: req.body.language,
+          genre: req.body.genre,
+          pdfLink: req.body.pdfLink, // Add pdfLink field
+      });
 
-    return res.status(200).json({ message: "Book updated successfully" });
+      return res.status(200).json({ message: "Book updated successfully" });
   } catch (error) {
-    console.error('Error in /update-book route:', error);
-    res.status(500).json({ message: "An Error Occurred", error: error.message });
+      console.error('Error in /update-book route:', error);
+      res.status(500).json({ message: "An Error Occurred", error: error.message });
   }
 });
 
@@ -226,22 +228,22 @@ router.get('/get-recent-books', async (req, res) => {
 });
 
 // Get book by ID
-router.get('/get-book/:id', async (req, res) => {
+router.get('/get-book/:id',  async (req, res) => {
   try {
-    const { id } = req.params;
-    const book = await Book.findById(id);
-    const averageRating = book.calculateAverageRating();
-    const totalRatings = book.ratings.length;
+      const { id } = req.params;
+      const book = await Book.findById(id);
+      const averageRating = book.calculateAverageRating();
+      const totalRatings = book.ratings.length;
 
-    return res.status(200).json({
-      status: "Success",
-      data: book,
-      averageRating,
-      totalRatings
-    });
+      return res.status(200).json({
+          status: "Success",
+          data: book,
+          averageRating,
+          totalRatings
+      });
   } catch (error) {
-    console.error('Error in /get-book by id:', error);
-    res.status(500).json({ message: "An Error Occurred", error: error.message });
+      console.error('Error in /get-book by id:', error);
+      res.status(500).json({ message: "An Error Occurred", error: error.message });
   }
 });
 
