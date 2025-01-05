@@ -31,8 +31,8 @@ const ArticlePage = () => {
   const handleArticleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const userId = localStorage.getItem('id'); // Get user ID from local storage
-      const token = localStorage.getItem('token'); // Get token from local storage
+      const userId = localStorage.getItem('id');
+      const token = localStorage.getItem('token');
       const headers = {
         headers: {
           id: userId,
@@ -52,7 +52,7 @@ const ArticlePage = () => {
     setExpandedArticleId((prevId) => (prevId === id ? null : id));
   };
 
-  const isLoggedIn = !!localStorage.getItem('token'); // Check if user is logged in
+  const isLoggedIn = !!localStorage.getItem('token');
 
   return (
     <div className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 min-h-screen p-6">

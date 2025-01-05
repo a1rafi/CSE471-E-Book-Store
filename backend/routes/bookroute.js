@@ -8,19 +8,19 @@ const { authenticateToken } = require('./userAuth');
 // Add a new article
 router.post('/add-article', authenticateToken, async (req, res) => {
   try {
-    const { id } = req.headers;  // User ID from headers
+    const { id } = req.headers; 
     if (!id) {
       return res.status(400).json({ message: "User ID is required in headers." });
     }
 
-    const user = await User.findById(id);  // Find the user by ID
+    const user = await User.findById(id);
     if (!user) {
       return res.status(404).json({ message: "User not found." });
     }
 
     const { title, content } = req.body;
 
-    // Validate required fields
+
     if (!title || !content) {
       return res.status(400).json({ message: "All fields (title, content) are required." });
     }
@@ -137,7 +137,7 @@ router.get('/get-ratings/:bookId', async (req, res) => {
   }
 });
 
-// Admin routes
+
 router.post('/add-book', authenticateToken, async (req, res) => {
   try {
       const { id } = req.headers;
@@ -153,7 +153,7 @@ router.post('/add-book', authenticateToken, async (req, res) => {
           desc: req.body.desc,
           language: req.body.language,
           genre: req.body.genre,
-          pdfLink: req.body.pdfLink, // Add pdfLink field
+          pdfLink: req.body.pdfLink, 
       });
       await book.save();
       res.status(200).json({ message: "Book added successfully" });
@@ -174,7 +174,7 @@ router.put('/update-book', authenticateToken, async (req, res) => {
           desc: req.body.desc,
           language: req.body.language,
           genre: req.body.genre,
-          pdfLink: req.body.pdfLink, // Add pdfLink field
+          pdfLink: req.body.pdfLink,
       });
 
       return res.status(200).json({ message: "Book updated successfully" });
@@ -183,6 +183,7 @@ router.put('/update-book', authenticateToken, async (req, res) => {
       res.status(500).json({ message: "An Error Occurred", error: error.message });
   }
 });
+
 
 router.delete('/delete-book', authenticateToken, async (req, res) => {
   try {
@@ -195,18 +196,17 @@ router.delete('/delete-book', authenticateToken, async (req, res) => {
   }
 });
 
-// Get all books
+
+
 router.get('/get-books', async (req, res) => {
   try {
     const books = await Book.find().sort({ createdAt: -1 });
 
-    // Calculate average ratings for each book
     const booksWithRatings = books.map(book => {
       const averageRating = book.calculateAverageRating();
       return { ...book.toObject(), averageRating };
     });
 
-    // Sort books by average ratings in descending order
     booksWithRatings.sort((a, b) => b.averageRating - a.averageRating);
 
     return res.status(200).json({ status: "Success", data: booksWithRatings });
@@ -227,7 +227,7 @@ router.get('/get-recent-books', async (req, res) => {
   }
 });
 
-// Get book by ID
+
 router.get('/get-book/:id',  async (req, res) => {
   try {
       const { id } = req.params;
@@ -252,8 +252,8 @@ router.get('/recommended-books', async (req, res) => {
   try {
     const { genre, currentBookId } = req.query;
     const books = await Book.find({ genre, _id: { $ne: currentBookId } })
-      .sort({ averageRating: -1 }) // Sort by average ratings in descending order
-      .limit(5); // Limit the number of recommended books
+      .sort({ averageRating: -1 }) 
+      .limit(5);
 
     res.status(200).json({
       status: 'Success',

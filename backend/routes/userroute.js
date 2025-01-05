@@ -76,8 +76,8 @@ router.get('/get-user',authenticateToken, async (req, res) => {
         const data = await User.findById(id).select('-password');
         return res.status(200).json(data);
     } catch (error) {
-        console.error('Error in /get-users route:', error); // Enhanced error logging
-        res.status(500).json({ message: "Internal server error", error: error.message }); // Return the error message
+        console.error('Error in /get-users route:', error); 
+        res.status(500).json({ message: "Internal server error", error: error.message }); 
     }
 });
 
@@ -89,7 +89,7 @@ router.put('/update-user', authenticateToken, async (req, res) => {
         return res.status(200).json({ message: "User updated successfully" });
     } catch (error) {
         console.error('Error in /update-user route:', error);
-        res.status(500).json({ message: "Internal server error", error: error.message }); // Return the error message
+        res.status(500).json({ message: "Internal server error", error: error.message });
     }
 });
 

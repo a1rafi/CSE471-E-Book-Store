@@ -88,7 +88,7 @@ const AdminDashboard = () => {
                                 y: {
                                     ticks: {
                                         color: 'white',
-                                        callback: (value) => `$${value}`, // Display values as dollars
+                                        callback: (value) => `$${value}`,
                                     },
                                 },
                             },

@@ -22,7 +22,7 @@ const CommentForm = ({ bookId, onCommentAdded }) => {
         { headers }
       );
       setText('');
-      // Pass the new comment to parent component
+
       onCommentAdded({
         _id: response.data.commentId,
         text,

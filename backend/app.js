@@ -9,7 +9,6 @@ const cartRoute = require('./routes/cartroute');
 const orderRoute = require('./routes/orderroute');
 const dashboardRoute = require('./routes/dashboardroute');
 
-// const commentsRoutes = require('./routes/commentsRoutes');
 
 
 
@@ -20,7 +19,6 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-//didn't call port through .env file for simplicity
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
 });
@@ -34,5 +32,3 @@ app.use('/api/user', userRoute, favouriteRoute);
 app.use('/api/user', userRoute, cartRoute);
 app.use('/api/user', userRoute, orderRoute);
 app.use('/api/dashboard', dashboardRoute);
-
-// app.use('/api/user', userRoute, commentsRoutes);

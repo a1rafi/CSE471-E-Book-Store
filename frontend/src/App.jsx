@@ -44,14 +44,12 @@ const App = () => {
     <div> 
       <Navbar /> 
       <Routes>
-        {/* Main Routes */}
         <Route exact path="/" element={<Home />} /> 
         <Route path="/AllBooks" element={<AllBooks />} /> 
         <Route path="/cart" element={<Cart />} /> 
         <Route path="/payment" element={<Payment />} /> 
         <Route path="/search" element={<Search />} />
 
-        {/* Profile Routes */}
         <Route path="/profile" element={<Profile />}>
           <Route 
             index 
@@ -69,11 +67,9 @@ const App = () => {
           <Route path="settings" element={<Settings />} />
         </Route>
 
-        {/* Authentication Routes */}
         <Route path="/SignUp" element={<SignUp />} /> 
         <Route path="/LogIn" element={<LogIn />} /> 
 
-        {/* Other Routes */}
         <Route path="/updateBook/:id" element={<UpdateBook />} /> 
         <Route path="/view-book-details/:id" element={<ViewBookDetails />} />
         <Route path="/articles" element={<ArticlePage />} />

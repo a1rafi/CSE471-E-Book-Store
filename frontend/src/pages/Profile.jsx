@@ -6,7 +6,6 @@ import axios from 'axios'
 import Loader from '../components/Loader/Loader'
 
 const Profile = () => {
- // const isLoggedIn = useSelector();
  const [Profile, setProfile] = useState();
   const headers = {
     id: localStorage.getItem('id'),
@@ -33,7 +32,6 @@ const Profile = () => {
         <>      
           <div className='w- full md:w-1/6 h-auto lg:h-screen'>
             <Sidebar data={Profile}/>
-            {/* <MobileNav /> */}
           </div>
           <div className='w-full md:w-5/6'>
             <Outlet/>

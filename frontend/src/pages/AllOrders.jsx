@@ -39,7 +39,6 @@ const AllOrders = () => {
     const id = AllOrders[i]._id;
     const newStatus = Values.status;
   
-    // Check if the new status is different from the current status
     if (AllOrders[i].status === newStatus) {
       alert("Status is already set to " + newStatus);
       return;
@@ -49,12 +48,10 @@ const AllOrders = () => {
       const response = await axios.put(`http://localhost:3000/api/user/update-status/${id}`, { status: newStatus }, { headers });
       alert(response.data.message);
   
-      // Update the status locally to reflect the change instantly
       const updatedOrders = [...AllOrders];
       updatedOrders[i].status = newStatus;
       setAllOrders(updatedOrders);
   
-      // Reset the Values state after submitting changes
       setValues({ status: newStatus });
     } catch (error) {
       console.error("Error updating status:", error);

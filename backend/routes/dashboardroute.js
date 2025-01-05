@@ -12,9 +12,12 @@ router.get('/admin-dashboard', authenticateToken, async (req, res) => {
         const bookCount = await Book.countDocuments();
         const complaintCount = await Complaint.countDocuments();
 
-        const recentOrders = await Order.find().sort({ createdAt: -1 }).limit(5).populate('user').populate('book');
-        const recentComments = await Book.find().select('title comments').populate('comments.user').sort({ 'comments.createdAt': -1 }).limit(5);
-        const recentRatings = await Book.find().select('title ratings').populate('ratings.user').sort({ 'ratings.createdAt': -1 }).limit(5);
+        const recentOrders = await Order.find().sort({ createdAt: -1 })
+        .limit(5).populate('user').populate('book');
+        const recentComments = await Book.find().select('title comments')
+        .populate('comments.user').sort({ 'comments.createdAt': -1 }).limit(5);
+        const recentRatings = await Book.find().select('title ratings')
+        .populate('ratings.user').sort({ 'ratings.createdAt': -1 }).limit(5);
 
         res.status(200).json({
             userCount,

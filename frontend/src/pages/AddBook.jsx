@@ -10,7 +10,7 @@ const AddBooks = () => {
         desc: "",
         language: "",
         genre: "",
-        pdfLink: "", // Add pdfLink field
+        pdfLink: "",
     });
     const headers = {
         id: localStorage.getItem('id'),
@@ -32,7 +32,7 @@ const AddBooks = () => {
                 Data.desc === "" ||
                 Data.language === "" ||
                 Data.genre === "" ||
-                Data.pdfLink === "" // Check pdfLink field
+                Data.pdfLink === ""
             ) {
                 alert("All fields are required");
                 return;
@@ -49,7 +49,7 @@ const AddBooks = () => {
                     desc: "",
                     language: "",
                     genre: "",
-                    pdfLink: "", // Reset pdfLink field
+                    pdfLink: "",
                 });
                 alert(response.data.message);
             }

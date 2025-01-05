@@ -16,7 +16,6 @@ router.put('/add-book-to-favourite', authenticateToken, async (req, res) => {
             return res.status(200).json({message: "Book added to favourites"});
 
     } catch (error) {
-        //console.error('Error in /update-book route:', error);
         res.status(500).json({message: "An Error Occured", error: error.message});
     }
 });
@@ -35,7 +34,6 @@ router.put('/remove-book-from-favourite', authenticateToken, async (req, res) =>
             return res.status(200).json({message: "Book removed from favourites"});
             
     } catch (error) {
-        //console.error('Error in /update-book route:', error);
         res.status(500).json({message: "An Error Occured", error: error.message});
     }
 });

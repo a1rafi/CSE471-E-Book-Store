@@ -10,7 +10,6 @@ const Home = () => {
         <Hero /> 
         <RecentlyAdded />
         <PopularBooks />
-        {/* <RecommenedBooks /> */}
 
     </div>
   )

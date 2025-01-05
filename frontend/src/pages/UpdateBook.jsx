@@ -11,7 +11,7 @@ const UpdateBook = () => {
         desc: "",
         language: "",
         genre: "",
-        pdfLink: "", // Add pdfLink field
+        pdfLink: "", 
     });
     const { id } = useParams();
     const headers = {
@@ -36,7 +36,7 @@ const UpdateBook = () => {
                 Data.desc === "" ||
                 Data.language === "" ||
                 Data.genre === "" ||
-                Data.pdfLink === "" // Check pdfLink field
+                Data.pdfLink === ""
             ) {
                 alert("All fields are required");
                 return;
@@ -53,7 +53,7 @@ const UpdateBook = () => {
                     desc: "",
                     language: "",
                     genre: "",
-                    pdfLink: "", // Reset pdfLink field
+                    pdfLink: "",
                 });
                 alert(response.data.message);
                 navigate(`/view-book-details/${id}`);

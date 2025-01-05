@@ -10,11 +10,10 @@ const ComplainPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Clear previous messages
     setError('');
     setSuccessMessage('');
 
-    // Validate inputs
+
     if (!complaintType || !description) {
       setError('Please fill in all the fields.');
       return;

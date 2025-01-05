@@ -1,7 +1,6 @@
 import React from "react";
 import ChatBot from "react-chatbotify";
 import "./Chatbot.css";
-//import logo from "../../public/book.jpg";
 
 const helpOptions = ["All Books", "Home", "Articles", "Profile"];
 const flow = {
@@ -88,32 +87,5 @@ const Chatbot = () => {
     </div>
   );
 };
-
-// original 
-//  return (
-//     <div>
-//       <button className="fixed bottom-4 right-4 bg-blue-500 text-white px-4 py-2 rounded" onClick={toggleChatbot}>Book Heaven Chatbot</button>
-//       {isOpen && (
-//         <div className="fixed bottom-10 right-0 z-50 w-96 bg-white border border-gray-300 rounded-tl-2xl shadow-lg">
-//           <MyChatBot />
-//         </div>
-//       )}
-//     </div>
-//   );
-// };
-
-// return (
-//     <div>
-//       <button className="fixed bottom-4 right-4 bg-blue-500 text-white px-4 py-2 rounded" onClick={toggleChatbot}>
-//         <img src={logo} alt="Chatbot Logo" className="w-8 h-8" />
-//       </button>
-//       {isOpen && (
-//         <div className="fixed bottom-10 right-0 z-50 w-96 bg-white border border-gray-300 rounded-tl-2xl shadow-lg">
-//           <MyChatBot />
-//         </div>
-//       )}
-//     </div>
-//   );
-// };
 
 export default Chatbot;
